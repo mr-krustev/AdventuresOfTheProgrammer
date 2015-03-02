@@ -1,1 +1,2 @@
 C:\Users\Marto\Desktop\Университет\Telerik\AdventuresOfTheProgrammer\Game\bin\Debug\Game.exe.config
+C:\Users\to\Desktop\AdventuresOfTheProgrammer\Game\bin\Debug\Game.exe.config
