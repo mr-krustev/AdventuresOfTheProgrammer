@@ -1,2 +1,7 @@
 C:\Users\Marto\Desktop\Университет\Telerik\AdventuresOfTheProgrammer\Game\bin\Debug\Game.exe.config
 C:\Users\to\Desktop\AdventuresOfTheProgrammer\Game\bin\Debug\Game.exe.config
+C:\Users\to\Desktop\AdventuresOfTheProgrammer\Game\bin\Debug\Game.exe
+C:\Users\to\Desktop\AdventuresOfTheProgrammer\Game\bin\Debug\Game.pdb
+C:\Users\to\Desktop\AdventuresOfTheProgrammer\Game\obj\Debug\Game.csprojResolveAssemblyReference.cache
+C:\Users\to\Desktop\AdventuresOfTheProgrammer\Game\obj\Debug\Game.exe
+C:\Users\to\Desktop\AdventuresOfTheProgrammer\Game\obj\Debug\Game.pdb

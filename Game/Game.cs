@@ -40,11 +40,14 @@ class Game
         DoTask.PrintArray(Rooms.room, Rooms.playFieldHeight, Rooms.playFieldWidth);
 
         InfoPanel.CurrentStats();
+        Hero.GetInitialPosition(currentLevel);
 
         while (true)
         {
-
+            Hero.PlayerMovement();
+            Hero.DrawPlayer(Hero.PositionX, Hero.PositionY);
             InfoPanel.CurrentStats();
+            Hero.DrawShots();
 
             if (newLevel)
             {
