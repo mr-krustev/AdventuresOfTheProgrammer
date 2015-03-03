@@ -23,7 +23,7 @@ public class Shots
 public class Hero
 {
     public static bool shotIsNotActive = true;
-    static int lives = 2;
+    public static int lives = 2;
     public static char shotSymbol = '*';
     public static char symbol;
     public static string direction = "";
