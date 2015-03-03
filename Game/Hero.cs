@@ -48,8 +48,8 @@ public class Hero
         }
         else if (currentLevel == 2)
         {
-            PositionY = 13;
-            PositionX = 2;
+            PositionY = 1;
+            PositionX = 26;
             direction = "down";
         }
 

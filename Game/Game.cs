@@ -119,7 +119,7 @@ class Game
                 if (isGameRunning)
                 {
                     
-                    InfoPanel.CurrentScore();
+                    
                     Hero.PlayerMovement();
                     Hero.DrawPlayer(Hero.PositionX, Hero.PositionY);
 
@@ -177,11 +177,12 @@ class Game
                     }
 
                     Thread.Sleep(375);
+                    InfoPanel.CurrentScore();
                     score--;
 
                     reprintWalls++;
 
-                    if (reprintWalls % 15 == 0)
+                    if (reprintWalls % 8 == 0)
                     {
                         InfoPanel.Boarders();
                         DoTask.PrintArray(InfoPanel.infoPanel, InfoPanel.infoPanelHeight, InfoPanel.infoPanelWidth,

@@ -72,6 +72,7 @@ public class Monsters
                 if (currentPositionX == Hero.currentShot.x && currentPositionY == Hero.currentShot.y)
                 {
                     exists = false;
+                    Game.score += 50;
                 }
                 if (currentPositionX == startPositionX && currentPositionY == startPositionY)
                 {
@@ -153,8 +154,6 @@ public class Monsters
                         default:
                             break;
                     }
-
-
                 }
 
                 if (Hero.PositionX == currentPositionX && Hero.PositionY == currentPositionY)
