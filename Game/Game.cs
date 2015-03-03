@@ -2,24 +2,27 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Threading;
+using System.Threading.Tasks;
 using System.IO;
+using System.Xml.Linq;
 
 class Game
 {
     public static int gameHeight = 25;
     public static int gameWidth = 50;
 
-
-
-    public static int currentLevel = 2;        // Changing this, changes the room (1-2 currently)
+    // Changing this, changes the room (1-2 currently)
+    public static int currentLevel = 2;
     public static bool newLevel = false;
+    public static bool getArtefact = false;
 
-    public static int score = 0;
+    public static int score = 1000;
 
     public static int reprintWalls = 0;
+    public static string heroName = "";
 
+    static bool isGameRunning;
     static void Main()
     {
 
@@ -31,6 +34,19 @@ class Game
         Console.BufferWidth = gameWidth + 4;
         Console.CursorVisible = false;
 
+        //Entering username
+
+
+        while (heroName.Length > 3 || heroName.Length == 0 && !heroName.Contains('-'))
+        {
+            DoTask.Print(7, 8, "Hello, soldier");
+            DoTask.Print(8, 3, "You have been chosen for this quest.");
+            DoTask.Print(9, 1, "Please enter your initials below.");
+            DoTask.Print(10, 5, "<up to 3 symbols>: ");
+            heroName = Console.ReadLine();
+            Console.Clear();
+        }
+
         InfoPanel.Boarders();
 
         Rooms.FillRoomsWithSymbols(Rooms.room, currentLevel);
@@ -41,14 +57,24 @@ class Game
 
         InfoPanel.CurrentStats();
         Hero.GetInitialPosition(currentLevel);
-
+        Traps.TrapsPerLevel(currentLevel);
+        Monsters.MonsterPerLevel(currentLevel);
         while (true)
         {
             Hero.PlayerMovement();
             Hero.DrawPlayer(Hero.PositionX, Hero.PositionY);
             InfoPanel.CurrentStats();
             Hero.DrawShots();
+            if (Hero.lives == 0)
+            {
+                Console.Clear();
 
+                // Add end-game stuff;
+
+
+
+                break;
+            }
             if (newLevel)
             {
                 currentLevel++;
