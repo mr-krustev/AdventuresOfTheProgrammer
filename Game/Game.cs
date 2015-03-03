@@ -18,7 +18,7 @@ class Game
     public static bool newLevel = false;
     public static bool getArtefact = false;
 
-    public static int score = 1000;
+    public static int score = 500;
 
     public static int reprintWalls = 0;
     public static Question[] questions;
@@ -118,6 +118,7 @@ class Game
             {
                 if (isGameRunning)
                 {
+                    
                     InfoPanel.CurrentScore();
                     Hero.PlayerMovement();
                     Hero.DrawPlayer(Hero.PositionX, Hero.PositionY);
@@ -136,12 +137,18 @@ class Game
                     if (Hero.PositionX == Artefact.Col && Hero.PositionY == Artefact.Row && !getArtefact)
                     {
                         getArtefact = true;
+                        score += 100;
+                        if (currentLevel == 2)
+                        {
+                            Hero.PositionX = 13;                            
+                        }
                     }
                     if (getArtefact)
                     {
                         Wiseman.DrawWiseman(currentLevel);
                         if (Hero.PositionX == Wiseman.Col && Hero.PositionY == Wiseman.Row)
                         {
+                            Traps.ResetTraps();
                             selectedQuestion = Wiseman.GetQuestion(questions, currentLevel);
                             isGameRunning = false;
                         }
@@ -151,8 +158,8 @@ class Game
 
                     if (newLevel)
                     {
-
-                        Traps.ResetTraps();
+                        score += 200;
+                        
                         Monsters.ResetMonsters();
                         getArtefact = false;
                         newLevel = false;
@@ -170,6 +177,7 @@ class Game
                     }
 
                     Thread.Sleep(375);
+                    score--;
 
                     reprintWalls++;
 

@@ -22,8 +22,8 @@ public class Artefact
         }
         else if (currentLevel == 2)
         {
-            Row = 3;
-            Col = 3;
+            Row = 13;
+            Col = 27;
             //Row = 13;
             //Col = 27;
         }

@@ -22,7 +22,7 @@ public class Shots
 
 public class Hero
 {
-
+    public static bool shotIsNotActive = true;
     public static int lives = 2;
     public static char shotSymbol = '*';
     public static char symbol;
@@ -81,99 +81,115 @@ public class Hero
 
     public static void Shoot()
     {
-        if (shotDirection.Count == 0 || currentShot.x == 0)
+
         {
-            return;
-        }
-        if (currentShot.x != 0 && currentShot.y != 0)
-        {
-            Rooms.room[currentShot.y, currentShot.x] = 0;            
-        }
+            if (shotDirection.Count == 0 || currentShot.x == 0)
+            {
+                shotIsNotActive = true;
+                return;
+            }
+            if (currentShot.x != 0 && currentShot.y != 0)
+            {
+                shotIsNotActive = false;
+            }
 
-        switch (shotDirection[shotDirection.Count - 1])
-        {
-            case "right":
-                if (!DoTask.CheckIfWall(currentShot.y, currentShot.x + 1))
-                {
-                    if (Hero.PositionX != currentShot.x)
-                    {
-                        DoTask.Print(currentShot.y, currentShot.x, ' ');
-                    }
-                    currentShot.x += 1;                   
-                }
-                else
-                {
-                    if (Hero.PositionX != currentShot.x)
-                    {
-                        DoTask.Print(currentShot.y, currentShot.x, ' ');
-                    }
-                    currentShot.x = 0;
-                    currentShot.y = 0;
-                }
-                break;
+            switch (shotDirection[shotDirection.Count - 1])
+            {
 
-            case "left":
-                if (!DoTask.CheckIfWall(currentShot.y, currentShot.x - 1))
-                {
-                    if (Hero.PositionX != currentShot.x)
+                case "right":
+                    shotIsNotActive = false;
+                    if (!DoTask.CheckIfWall(currentShot.y, currentShot.x + 1))
                     {
-                        DoTask.Print(currentShot.y, currentShot.x, ' ');
+                        if (Hero.PositionX != currentShot.x)
+                        {
+                            DoTask.Print(currentShot.y, currentShot.x, ' ');
+                        }
+                        currentShot.x += 1;
                     }
-                    currentShot.x -= 1;
-                }
-                else
-                {
-                    if (Hero.PositionX != currentShot.x)
+                    else
                     {
-                        DoTask.Print(currentShot.y, currentShot.x, ' ');
+                        if (Hero.PositionX != currentShot.x)
+                        {
+                            DoTask.Print(currentShot.y, currentShot.x, ' ');
+                        }
+                        currentShot.x = 0;
+                        currentShot.y = 0;
+                        shotIsNotActive = true;
                     }
-                    currentShot.x = 0;
-                    currentShot.y = 0;
-                }
-                break;
+                    break;
 
-            case "up":
-                if (!DoTask.CheckIfWall(currentShot.y - 1, currentShot.x))
-                {
-                    if (Hero.PositionY != currentShot.y)
+                case "left":
+                    if (!DoTask.CheckIfWall(currentShot.y, currentShot.x - 1))
                     {
-                        DoTask.Print(currentShot.y, currentShot.x, ' ');
+                        shotIsNotActive = false;
+                        if (Hero.PositionX != currentShot.x)
+                        {
+                            DoTask.Print(currentShot.y, currentShot.x, ' ');
+                        }
+                        currentShot.x -= 1;
                     }
-                    currentShot.y -= 1;
-                }
-                else
-                {
-                    if (Hero.PositionY != currentShot.y)
+                    else
                     {
-                        DoTask.Print(currentShot.y, currentShot.x, ' ');
-                    }
-                    currentShot.x = 0;
-                    currentShot.y = 0;
-                }
-                break;
+                        if (Hero.PositionX != currentShot.x)
+                        {
+                            DoTask.Print(currentShot.y, currentShot.x, ' ');
+                        }
+                        currentShot.x = 0;
+                        currentShot.y = 0;
 
-            case "down":
-                if (!DoTask.CheckIfWall(currentShot.y + 1, currentShot.x))
-                {
-                    if (Hero.PositionY != currentShot.y)
-                    {
-                        DoTask.Print(currentShot.y, currentShot.x, ' ');
+                        shotIsNotActive = true;
                     }
-                    currentShot.y += 1;
-                }
-                else
-                {
-                    if (Hero.PositionY != currentShot.y)
-                    {
-                        DoTask.Print(currentShot.y, currentShot.x, ' ');
-                    }
-                    currentShot.x = 0;
-                    currentShot.y = 0;
-                }
+                    break;
 
-                break;
-            default:
-                break;
+                case "up":
+
+                    if (!DoTask.CheckIfWall(currentShot.y - 1, currentShot.x))
+                    {
+                        shotIsNotActive = false;
+                        if (Hero.PositionY != currentShot.y)
+                        {
+                            DoTask.Print(currentShot.y, currentShot.x, ' ');
+                        }
+                        currentShot.y -= 1;
+                    }
+                    else
+                    {
+                        if (Hero.PositionY != currentShot.y)
+                        {
+                            DoTask.Print(currentShot.y, currentShot.x, ' ');
+                        }
+                        currentShot.x = 0;
+                        currentShot.y = 0;
+                        shotIsNotActive = true;
+                    }
+                    break;
+
+                case "down":
+
+                    if (!DoTask.CheckIfWall(currentShot.y + 1, currentShot.x))
+                    {
+                        shotIsNotActive = false;
+                        if (Hero.PositionY != currentShot.y)
+                        {
+                            DoTask.Print(currentShot.y, currentShot.x, ' ');
+                        }
+                        currentShot.y += 1;
+                    }
+                    else
+                    {
+                        if (Hero.PositionY != currentShot.y)
+                        {
+                            DoTask.Print(currentShot.y, currentShot.x, ' ');
+                        }
+                        currentShot.x = 0;
+                        currentShot.y = 0;
+                        shotIsNotActive = true;
+                    }
+
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
@@ -204,10 +220,13 @@ public class Hero
 
             if (pressedKey.Key == ConsoleKey.Spacebar)
             {
-                currentShot.x = PositionX;
-                currentShot.y = PositionY;
+                if (shotIsNotActive)
+                {
+                    currentShot.x = PositionX;
+                    currentShot.y = PositionY;
 
-                shotDirection.Add(direction);
+                    shotDirection.Add(direction);
+                }
             }
             try
             {
