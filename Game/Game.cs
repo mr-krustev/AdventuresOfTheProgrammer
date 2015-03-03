@@ -9,22 +9,67 @@ using System.Xml.Linq;
 
 class Game
 {
+
     public static int gameHeight = 25;
     public static int gameWidth = 50;
 
     // Changing this, changes the room (1-2 currently)
-    public static int currentLevel = 2;
+    public static int currentLevel = 1;
     public static bool newLevel = false;
     public static bool getArtefact = false;
 
     public static int score = 1000;
 
     public static int reprintWalls = 0;
+    public static Question[] questions;
+
+
     public static string heroName = "";
 
     static bool isGameRunning;
+    static bool isQuestionPrinted;
+
+    static Question selectedQuestion;
+
+    static Question[] LoadQuestions()
+    {
+        string path = "..\\..\\questions\\questions.xml";
+        XDocument doc = XDocument.Load(path);
+        var questionsRoot = doc.Root;
+        Question[] questions = questionsRoot.Elements("question")
+                                            .Select(questionXml => new Question(questionXml)).ToArray();
+
+        return questions;
+    }
+
+    public static List<string> topFiveScores = new List<string>();
+
+    static void SortList(List<string> topFiveScores)
+    {
+        for (int i = 0; i < topFiveScores.Count; i++)
+        {
+            for (int j = i + 1; j < topFiveScores.Count; j++)
+            {
+                if (int.Parse(topFiveScores[i].Substring(4)) < int.Parse(topFiveScores[j].Substring(4)))
+                {
+                    string tempString = topFiveScores[i];
+                    topFiveScores[i] = topFiveScores[j];
+                    topFiveScores[j] = tempString;
+                }
+            }
+        }
+    }
+
     static void Main()
     {
+
+        using (StreamReader read = new StreamReader(@"..//..//HighScores.txt"))
+        {
+            while (!read.EndOfStream)
+            {
+                topFiveScores.Add(read.ReadLine());
+            }
+        }
 
         Console.OutputEncoding = Encoding.Unicode;
 
@@ -54,53 +99,164 @@ class Game
 
         DoTask.PrintArray(InfoPanel.infoPanel, InfoPanel.infoPanelHeight, InfoPanel.infoPanelWidth, Rooms.playFieldWidth);
         DoTask.PrintArray(Rooms.room, Rooms.playFieldHeight, Rooms.playFieldWidth);
+        InfoPanel.PrintRoomName(Game.currentLevel);
 
         InfoPanel.CurrentStats();
         Hero.GetInitialPosition(currentLevel);
+
+        Artefact.DrawArtefact(currentLevel);
         Traps.TrapsPerLevel(currentLevel);
         Monsters.MonsterPerLevel(currentLevel);
-        while (true)
+        questions = LoadQuestions();
+        isGameRunning = true;
+        isQuestionPrinted = false;
+        try
         {
-            Hero.PlayerMovement();
-            Hero.DrawPlayer(Hero.PositionX, Hero.PositionY);
-            InfoPanel.CurrentStats();
-            Hero.DrawShots();
-            if (Hero.lives == 0)
+            #region Game
+
+            while (true)
             {
-                Console.Clear();
+                if (isGameRunning)
+                {
+                    InfoPanel.CurrentScore();
+                    Hero.PlayerMovement();
+                    Hero.DrawPlayer(Hero.PositionX, Hero.PositionY);
 
-                // Add end-game stuff;
+                    if (Hero.lives == 0)
+                    {
+                        // Add end-game stuff;
+                        throw new EndOfGameException(false);
+                    }
 
 
+                    if (!getArtefact)
+                    {
+                        Artefact.DrawArtefact(currentLevel);
+                    }
+                    if (Hero.PositionX == Artefact.Col && Hero.PositionY == Artefact.Row && !getArtefact)
+                    {
+                        getArtefact = true;
+                    }
+                    if (getArtefact)
+                    {
+                        Wiseman.DrawWiseman(currentLevel);
+                        if (Hero.PositionX == Wiseman.Col && Hero.PositionY == Wiseman.Row)
+                        {
+                            selectedQuestion = Wiseman.GetQuestion(questions, currentLevel);
+                            isGameRunning = false;
+                        }
+                    }
 
-                break;
+                    Hero.DrawShots();
+
+                    if (newLevel)
+                    {
+
+                        Traps.ResetTraps();
+                        Monsters.ResetMonsters();
+                        getArtefact = false;
+                        newLevel = false;
+                        Console.Clear();
+                        Rooms.FillRoomsWithSymbols(Rooms.room, currentLevel);
+                        DoTask.PrintArray(InfoPanel.infoPanel, InfoPanel.infoPanelHeight, InfoPanel.infoPanelWidth,
+                            Rooms.playFieldWidth);
+                        DoTask.PrintArray(Rooms.room, Rooms.playFieldHeight, Rooms.playFieldWidth);
+                        InfoPanel.PrintRoomName(currentLevel);
+                        InfoPanel.CurrentStats();
+                        Hero.GetInitialPosition(currentLevel);
+                        Artefact.DrawArtefact(currentLevel);
+                        Traps.TrapsPerLevel(currentLevel);
+                        Monsters.MonsterPerLevel(currentLevel);
+                    }
+
+                    Thread.Sleep(375);
+
+                    reprintWalls++;
+
+                    if (reprintWalls % 15 == 0)
+                    {
+                        InfoPanel.Boarders();
+                        DoTask.PrintArray(InfoPanel.infoPanel, InfoPanel.infoPanelHeight, InfoPanel.infoPanelWidth,
+                            Rooms.playFieldWidth);
+                        DoTask.PrintArray(Rooms.room, Rooms.playFieldHeight, Rooms.playFieldWidth);
+                        InfoPanel.CurrentStats();
+                        InfoPanel.PrintRoomName(currentLevel);
+                        reprintWalls = 0;
+                    }
+                }
+                else
+                {
+                    if (!isQuestionPrinted)
+                    {
+                        selectedQuestion.Draw();
+                        isQuestionPrinted = true;
+                    }
+                    else
+                    {
+                        if (Console.KeyAvailable)
+                        {
+                            var info = Console.ReadKey();
+                            int selectedAnswer = 0;
+                            switch (info.Key)
+                            {
+                                case ConsoleKey.D1:
+                                case ConsoleKey.D2:
+                                case ConsoleKey.D3:
+                                case ConsoleKey.D4:
+                                    selectedAnswer = info.KeyChar - '0';
+                                    break;
+                            }
+                            if (1 <= selectedAnswer && selectedAnswer <= 4)
+                            {
+                                bool isCorrect = selectedQuestion.IsCorrectAnswer(selectedAnswer - 1);
+                                selectedQuestion.Clear();
+                                if (isCorrect)
+                                {
+                                    newLevel = true;
+                                    currentLevel++;
+                                    if (currentLevel == 3)
+                                    {
+                                        throw new EndOfGameException(true);
+                                    }
+                                    isGameRunning = true;
+                                    selectedQuestion = null;
+                                }
+                                else
+                                {
+                                    selectedQuestion = Wiseman.GetQuestion(questions, currentLevel);
+                                }
+                                isQuestionPrinted = false;
+                            }
+
+                        }
+                    }
+                }
             }
-            if (newLevel)
+
+            #endregion
+        }
+        catch (EndOfGameException ex)
+        {
+            topFiveScores.Add(string.Join("-", heroName, score));
+
+            SortList(topFiveScores);
+
+            StreamWriter writeScore = new StreamWriter("HighScores.txt");
+            using (writeScore)
             {
-                currentLevel++;
-                Rooms.FillRoomsWithSymbols(Rooms.room, currentLevel);
+                for (int i = 0; i < topFiveScores.Count && i < 5; i++)
+                {
+                    writeScore.WriteLine(topFiveScores[i]);
+                }
             }
+            Console.Clear();
 
-            Thread.Sleep(375);
-
-
-
-
-
-
-
-            reprintWalls++;
-            if (reprintWalls % 15 == 0)
+            Console.WriteLine(ex.GameWon ? "You won!" : "Game over");
+            foreach (string userScore in topFiveScores)
             {
-                Console.Clear();
-                InfoPanel.Boarders();
-                InfoPanel.PrintRoomName(currentLevel);
-                DoTask.PrintArray(InfoPanel.infoPanel, InfoPanel.infoPanelHeight, InfoPanel.infoPanelWidth, Rooms.playFieldWidth);
-                DoTask.PrintArray(Rooms.room, Rooms.playFieldHeight, Rooms.playFieldWidth);
-
+                Console.WriteLine(userScore);
             }
         }
 
     }
 }
-

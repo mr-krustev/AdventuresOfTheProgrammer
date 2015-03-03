@@ -5,7 +5,7 @@ public enum Monster
 {
     Martin,
     Rosen,
-    Dimitur
+    Dimityr
 }
 //trap facing direction-4 posibilities
 
@@ -21,7 +21,7 @@ public class Monsters
             Thread.Sleep(45);
             VisualiseMonster(Monster.Martin, 18, 13, 18, 13, Direction.StandStill, true, 1);
             Thread.Sleep(15);
-            VisualiseMonster(Monster.Dimitur, 28, 10, 28, 10, Direction.StandStill, true, 2);
+            VisualiseMonster(Monster.Dimityr, 28, 10, 28, 10, Direction.StandStill, true, 2);
         }
         else if (currentLevel == 2)
         {
@@ -30,8 +30,9 @@ public class Monsters
             VisualiseMonster(Monster.Martin, 6, 2, 12, 2, Direction.LeftRight, true, 1);
             Thread.Sleep(15);
 
-            VisualiseMonster(Monster.Dimitur, 29, 10, 29, 14, Direction.TopDown, true, 2);
+            VisualiseMonster(Monster.Dimityr, 29, 10, 29, 14, Direction.TopDown, true, 2);
             Thread.Sleep(15);
+
         }
     }
 
@@ -52,7 +53,7 @@ public class Monsters
             case Monster.Martin:
                 symbol = 'M';
                 break;
-            case Monster.Dimitur:
+            case Monster.Dimityr:
                 symbol = 'D';
                 break;
             default:
@@ -72,36 +73,60 @@ public class Monsters
                 {
                     exists = false;
                 }
-                int xChange = 0;//-1 ,0 or +1
-                int yChange = 0;//-1 ,0 or +1
-                switch (direction)
-                {
-                    case Direction.TopDown:
-                        yChange = 1;
-                        break;
-                    case Direction.DownTop:
-                        yChange = -1;
-                        break;
-                    case Direction.LeftRight:
-                        xChange = 1;
-                        break;
-                    case Direction.RightLeft:
-                        xChange = -1;
-                        break;
-                    case Direction.StandStill:
-                        break;
-                }
-
                 if (currentPositionX == startPositionX && currentPositionY == startPositionY)
                 {
-                    currentPositionX += xChange;
-                    currentPositionY += yChange;
+                    switch (direction)
+                    {
+                        case Direction.TopDown:
+                            currentPositionY++;
+
+                            break;
+                        case Direction.DownTop:
+                            currentPositionY--;
+
+                            break;
+                        case Direction.LeftRight:
+                            currentPositionX++;
+
+                            break;
+                        case Direction.RightLeft:
+                            currentPositionX--;
+
+                            break;
+                        case Direction.StandStill:
+
+                            break;
+                        default:
+                            break;
+
+                    }
                 }
                 DoTask.Print(currentPositionY, currentPositionX, symbol);
                 Thread.Sleep(357);
-                currentPositionX += xChange;
-                currentPositionY += yChange;
-                DoTask.Print(currentPositionY - yChange, currentPositionX - xChange, ' ');           
+                switch (direction)
+                {
+                    case Direction.TopDown:
+                        currentPositionY++;
+                        DoTask.Print(currentPositionY - 1, currentPositionX, ' ');
+                        break;
+                    case Direction.DownTop:
+                        currentPositionY--;
+                        DoTask.Print(currentPositionY + 1, currentPositionX, ' ');
+                        break;
+                    case Direction.LeftRight:
+                        currentPositionX++;
+                        DoTask.Print(currentPositionY, currentPositionX - 1, ' ');
+                        break;
+                    case Direction.RightLeft:
+                        currentPositionX--;
+                        DoTask.Print(currentPositionY, currentPositionX + 1, ' ');
+                        break;
+                    case Direction.StandStill:
+
+                        break;
+                    default:
+                        break;
+                }
                 if ((currentPositionX == endPositionX && currentPositionY == endPositionY) || (currentPositionX == startPositionX && currentPositionY == startPositionY))
                 {
                     switch (direction)
@@ -123,9 +148,15 @@ public class Monsters
                             direction = Direction.LeftRight;
                             break;
                         case Direction.StandStill:
+
+                            break;
+                        default:
                             break;
                     }
+
+
                 }
+
                 if (Hero.PositionX == currentPositionX && Hero.PositionY == currentPositionY)
                 {
                     Hero.lives--;

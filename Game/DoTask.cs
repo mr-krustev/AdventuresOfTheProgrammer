@@ -26,10 +26,30 @@ class DoTask
         }
     }
 
-    public static void Print(int col, int row, object data) // Method used for printing.
+    public static void Print(int col, int row, object data, int width = 0) // Method used for printing.
     {
+        string dataAsString = data.ToString();
         Console.SetCursorPosition(row, col);
-        Console.Write(data);
+        if (width == 0)
+        {
+            width = dataAsString.Length + 10;
+        }
+        int widthCoef = 1;
+        for (int i = 0; i < dataAsString.Length; i++)
+        {
+            Console.Write(dataAsString[i]);
+            if (i == widthCoef * width)
+            {
+                Console.SetCursorPosition(row, col + widthCoef);
+                ++widthCoef;
+            }
+        }
+        //StringBuilder textToPrint = new StringBuilder(data.ToString());
+        //for (int i = 0; i < textToPrint.Length / width; i++)
+        //{
+        //    textToPrint.Insert((i + 1) * width, "\n");
+        //}
+        //Console.Write(data);
     }
 
     public static void PrintArray(int[,] array, int maxRow, int maxCol, int widthPos = 0)

@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<questions>
+  <question level="1">
+    <text>Which of the following is NOT a web browser?</text>
+    <answers>
+      <answer isCorrect="true">
+        Mozilla Thunderbird
+      </answer>
+      <answer isCorrect="false">
+        Google Chrome
+      </answer>
+      <answer isCorrect="false">
+        Internet Explorer
+      </answer>
+      <answer isCorrect="false">
+        Apple Safari
+      </answer>
+      <answer isCorrect="false">
+        Opera
+      </answer>
+    </answers>
+  </question>
+  <question level="1">
+    <text>What are the last six symbols of the Hexademical numeral system base?</text>
+    <answers>
+      <answer isCorrect="true">
+        A, B, C, D, E, F
+      </answer>
+      <answer isCorrect="false">
+        10, 11, 12, 13, 14, 15
+      </answer>
+      <answer isCorrect="false">
+        @, #, %, *, !, ~
+      </answer>
+      <answer isCorrect="false">
+        M, N, O, P, Q, R
+      </answer>
+      <answer isCorrect="false">
+        11, 12, 13, 14, 15, 16
+      </answer>
+    </answers>
+  </question>
+  <question level="1">
+    <text>Which of the following format is NOT a text file format?</text>
+    <answers>
+      <answer isCorrect="true">
+        PPT
+      </answer>
+      <answer isCorrect="false">
+        TXT
+      </answer>
+      <answer isCorrect="false">
+        DOCX
+      </answer>
+      <answer isCorrect="false">
+        ODT
+      </answer>
+      <answer isCorrect="false">
+        RTF
+      </answer>
+    </answers>
+  </question>
+  <question level="2">
+    <text>Which of the statements below is FALSE?</text>
+    <answers>
+      <answer isCorrect="true">
+        You can decrypt a message sent to someone if you have their public key
+      </answer>
+      <answer isCorrect="false">
+        Asymetric encryption is considered more secure than the symmetric encryption
+      </answer>
+      <answer isCorrect="false">
+        A pair of a public and private key that belong to the same person are mathematically linked
+      </answer>
+      <answer isCorrect="false">
+        RSA is an asymmetric method of encryption
+      </answer>
+      <answer isCorrect="false">
+        A DES symmetric key can't be easily broken by a modern computer
+      </answer>
+    </answers>
+  </question>
+  <question level="2">
+    <text>Which of the following is NOT a cloud service model?</text>
+    <answers>
+      <answer isCorrect="true">
+        IT as a service (ITaaS)
+      </answer>
+      <answer isCorrect="false">
+        Platform as a service(PaaS)
+      </answer>
+      <answer isCorrect="false">
+        Infrastructure as a service(IaaS)
+      </answer>
+      <answer isCorrect="false">
+        Network as a service(Naas)
+      </answer>
+      <answer isCorrect="false">
+        Software as a service(SaaS)
+      </answer>
+    </answers>
+  </question>
+  <question level="2">
+    <text>How is the Android's java virtual machine called?</text>
+    <answers>
+      <answer isCorrect="true">
+        Dalvik
+      </answer>
+      <answer isCorrect="false">
+        Common Language Infrastructure(CLI)
+      </answer>
+      <answer isCorrect="false">
+        Java virtual machine(JVM)
+      </answer>
+      <answer isCorrect="false">
+        V8(JavaScript engine)
+      </answer>
+      <answer isCorrect="false">
+        Tamarin
+      </answer>
+    </answers>
+  </question>
+</questions>

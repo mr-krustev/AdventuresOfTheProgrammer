@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D1C21FA9-699F-48A0-A66F-09D356BF427B}</ProjectGuid>
+    <ProjectGuid>{E08E44F2-1553-4293-99A4-0DDCE7D31ECC}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Game</RootNamespace>
@@ -41,17 +41,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DoTask.cs" />
+    <Compile Include="Artefact.cs" />
+    <Compile Include="EndOfGameException.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Hero.cs" />
     <Compile Include="InfoPanel.cs" />
     <Compile Include="Monsters.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Rooms.cs" />
+    <Compile Include="Question.cs" />
+    <Compile Include="Room.cs" />
+    <Compile Include="DoTask.cs" />
     <Compile Include="Traps.cs" />
+    <Compile Include="Wiseman.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="HighScores.txt" />
+    <Content Include="questions\questions.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
